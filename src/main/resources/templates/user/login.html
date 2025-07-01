@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <style>
+        .page-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 10px;
+            background: #f3f3f3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            margin-top: 5px;
+            padding: 5px;
+            width: 200px;
+        }
+
+
+        .singin-btn{
+            background-color: #28a745;
+            color: white;
+            margin: 7px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 35px;
+        }
+        .registration-btn{
+            background: none;
+            color: #444;
+            margin: 7px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 35px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+    <div class="form-container">
+        <h1>Авторизация</h1>
+        <div style="color:red" th:if="${param.error}">
+            Неправильное имя или пароль
+        </div>
+        <form action="/login" method="post">
+            <label for="username">Имя:
+                <input id="username" type="text" name="username">
+            </label>
+            <label for="password">Пароль:
+                <input id="password" type="password" name="password">
+            </label>
+            <button type="submit" class="singin-btn">Войти</button>
+        </form>
+        <a href="/register">
+            <button type="button" class = "registration-btn">Зарегистрироваться</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
