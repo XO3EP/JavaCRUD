@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Посты</title>
+    <style>
+        .form-container {
+            max-width:100%;
+            margin-left: 100px;
+        }
+        .post-container {
+            border: 1px solid #757575;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f3f3f3;
+            max-width: 75%;
+        }
+        .post-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .post-content {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            white-space: normal;
+        }
+        .post-meta {
+            font-size: 0.9em;
+            color: #515151;
+        }
+        .post-author {
+            font-weight: bold;
+            color: #444;
+        }
+        .create-post-container {
+            margin-bottom: 20px;
+        }
+        .create-post-btn {
+            background-color: #717171;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn{
+            background: none;
+            border: none;
+            margin-right: 10px;
+            color: #28a745;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        .delete-btn{
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        .post-bottom{
+            margin-top: 10px
+        }
+        .delete-form{
+            display: inline;
+        }
+        .logout-btn{
+            background: none;
+            color: #444;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class = "form-container">
+    <div th:insert="~{fragment :: header}"></div>
+
+    <h1>Посты</h1>
+
+    <div class="create-post-container">
+        <a th:href="@{/posts/create}" style="text-decoration: none;">
+            <button class = "create-post-btn">Создать новый пост</button>
+        </a>
+    </div>
+
+    <div th:each="post : ${posts}">
+        <div class="post-container">
+            <div class="post-title" th:text="${post.title}">Заголовок поста</div>
+            <div class="post-content" th:text="${post.content}">Текст поста</div>
+            <div class="post-meta">
+                <span>Создан: </span>
+                <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                <span> | Изменен: </span>
+                <span th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                <span> | Автор: </span>
+                <span class="post-author" th:text="${post.userId.username}">Имя автора</span>
+            </div>
+
+            <div class = "post-bottom">
+                <span th:if="${post.userId.username == currentUsername or currentUsername == 'admin'}">
+                    <a th:href="@{'/posts/' + ${post.postId} + '/edit'}" class = "edit-btn">Изменить</a>
+                    <form th:action="@{'/posts/' + ${post.postId}}" method="post" class = "delete-form">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class = "delete-btn"
+                                onclick="return confirm('Вы уверены, что хотите удалить пост?')">Удалить</button>
+                    </form>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
